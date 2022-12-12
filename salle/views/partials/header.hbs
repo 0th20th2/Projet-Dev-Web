@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <!--  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <title>Salle de sport</title>
+</head>
+<body>
+
+<header>
+    <div class="px-3 py-2 text-bg-dark">
+        <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+            <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                <use xlink:href="#bootstrap"></use>
+            </svg>
+            </a>
+
+            <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+            <li>
+                <a href="/" class="nav-link text-secondary">
+                Acceuil
+                </a>
+            </li>
+            <li>
+                <a href="/cours" class="nav-link text-white">
+                Cours
+                </a>
+            </li>
+            </ul>
+        </div>
+        </div>
+    </div>
+    <!-- Second  -->
+    <div class="px-3 py-2 border-bottom">
+        <div class="container d-flex flex-wrap justify-content-center">
+            {{#if user}}
+                <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto" role="search">
+                    <h3>Bonjour, {{user.nom}} {{user.prenom}}.</h3>
+                </form>
+            {{/if}}
+
+        <div class="text-end">
+            {{#unless user}}
+            <!--  -->
+            <button  type="button"  data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-whatever="@mdo" class="btn btn-light text-dark me-2">
+                Connexion
+            </button>
+            <!--  -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sincrireModal" data-bs-whatever="@mdo">
+                S'inscrire
+            </button>
+            {{/unless}}
+
+            {{#if user}}
+                {{#ifEquals user.id_type_utilisateur 2}}
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCours" data-bs-whatever="@mdo">
+                        Ajouter un cours
+                    </button>
+
+                    <a href="/utilisateurs" class="btn btn-outline-dark">
+                        Utilisateur(s)
+                    </a>
+
+                    <a href="/deconnexion" class="btn btn-primary">
+                        Se déconnecter
+                    </a>
+                {{/ifEquals}}
+            {{/if}}
+
+            {{#if user}}
+                {{#ifEquals user.id_type_utilisateur 1}}
+
+                <a href="/mes/cours" class="btn btn-success">
+                    Mes cours
+                </a>
+
+                <a href="/deconnexion" class="btn btn-primary">
+                    Se déconnecter
+                </a>
+                {{/ifEquals}}
+            {{/if}}
+
+        </div>
+        </div>
+    </div>
+</header>
+
+{{!-- INCASE SUCCESS --}}
+{{#if callback}}
+    {{#ifEquals callback.type 'success'}}
+        <div class="alert alert-success m-0" role="alert">
+            {{#each callback.messages}}
+                {{this}}
+            {{/each}}
+        </div>
+    {{/ifEquals}}
+{{/if}}
+
+{{!-- INCASE ERROR --}}
+{{#if callback}}
+    {{#ifEquals callback.type 'error'}}
+        <div class="alert alert-danger m-0" role="alert">
+            {{#each callback.messages}}
+                {{this}}
+            {{/each}}
+        </div>
+    {{/ifEquals}}
+{{/if}}
+
+
+<!-- Sinccire -->
+<div class="modal fade" id="sincrireModal" tabindex="-1" aria-labelledby="sincrireModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="sincrireModalLabel">S'inscrire</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="post" action="/sincrire" id="formSincrire">
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="nom" placeholder="Nom" required>
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="prenom" placeholder="Prénom" required>
+                </div>
+                <div class="mb-3">
+                    <input type="email" class="form-control" name="courriel" placeholder="Courriel">
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" name="password" placeholder="Mot de passe" required>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" form="formSincrire">S'inscrire</button>
+        </div>
+        </div>
+  </div>
+</div>
+
+
+<!-- Login -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="sincrireModalLabel">Connexion</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="post" action="/connexion" id="formLogin">
+                <div class="mb-3">
+                    <input type="email" class="form-control" name="courriel" placeholder="Courriel">
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" name="password" placeholder="Mot de passe" required>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" form="formLogin">Connexion</button>
+        </div>
+        </div>
+  </div>
+</div>
+
+
+<!-- Add new cours -->
+<div class="modal fade" id="addCours" tabindex="-1" aria-labelledby="addCoursLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="sincrireModalLabel">Ajouter un cours</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="post" action="/ajouter/cours" id="formAddCours">
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="nom" placeholder="Nom cours" required>
+                </div>
+                <div class="mb-3">
+                    <textarea type="text" class="form-control" name="description" placeholder="Description"></textarea>
+                </div>
+                <div class="mb-3">
+                    <input type="number" class="form-control" name="capacite" min="1" placeholder="Capacité" required>
+                </div>
+                <div class="mb-3">
+                    <input type="datetime-local" class="form-control" name="dateDebut" placeholder="Capacité" required>
+                </div>
+                <div class="mb-3">
+                    <input type="number" class="form-control" name="nbCours" min="1" placeholder="Nombre cours" required>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" form="formAddCours">Valider</button>
+        </div>
+        </div>
+  </div>
+</div>

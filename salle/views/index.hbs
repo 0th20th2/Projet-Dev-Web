@@ -1,0 +1,109 @@
+{{>header}}
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Votre salle</h5>
+          <p>Votre salle de musculation.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://images.pexels.com/photos/841130/pexels-photo-841130.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Ouvert 24/24</h5>
+          <p>Du lundi au dimanche votre salle vous est ouverte.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://images.pexels.com/photos/1552249/pexels-photo-1552249.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Equipement de qualité</h5>
+          <p>Un equipement de qualité fais specialement pour vous.</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>  
+
+<div class="container px-4 py-5" id="hanging-icons">
+    <h2 class="pb-2 border-bottom">
+        {{#if courses}}
+          ({{courses.length}})
+        {{/if}}
+        Cours
+    </h2>
+        <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        {{#if courses}}
+        {{#each courses}}
+        <div class="col">
+        <div class="card">
+            <div class="card-body">
+            <h5 class="card-title">{{this.nom}}</h5>
+                <p>{{this.description}}</p>
+                <ol class="list-group list-group-flush ">
+                    <!-- CAPACITE -->
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="fw-bold">
+                                {{this.capacite}}
+                            </div>
+                            Capacité
+                        </div>
+                    </li>
+                    <!-- NB COURS -->
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="fw-bold">
+                                {{this.nb_cours}}
+                            </div>
+                            Nombre cours
+                        </div>
+                    </li>
+                    <!-- DATE -->
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div>
+                        <div class="fw-bold">
+                            {{formatDate this.date_debut}}
+                        </div>
+                        Date et l'heure
+                        </div>
+                    </li>
+                </ol>
+            </div>
+            {{#if user}}
+                <div class="card-footer">
+                {{#ifEquals user.type 1}}
+                    <a href="/take/course/<%=courses[i]['id']%>" class="btn btn-success block">
+                        S'inscrire
+                    </a>
+                </div>
+                {{/ifEquals}}
+
+                {{#ifEquals user.type 2}}
+                <div class="card-footer text-muted">
+                    <a href="/delete/course/<%=courses[i]['id']%>" class="btn btn-danger">
+                        Supp.
+                    </a>
+                </div>
+                {{/ifEquals}}
+            {{/if}}
+        </div>
+        </div>
+        {{/each}}
+        {{/if}}
+
+    </div>
+</div>

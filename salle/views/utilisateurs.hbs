@@ -1,0 +1,35 @@
+{{>header}}
+
+
+
+<div class="container px-4 py-5" id="hanging-icons">
+    <h2 class="pb-2 border-bottom">
+        {{#if users}}
+          ({{users.length}})
+        {{/if}}
+         Utilisateur(s)
+    </h2>
+
+{{#if users}}
+    <ol class="list-group list-group-numbered">
+        {{#each users}}
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold">
+                        {{this.nom}} {{this.prenom}}
+                    </div>
+                    {{this.courriel}}
+                </div>
+                 <span class="badge bg-primary rounded-pill">
+                    {{#ifEquals this.id_type_utilisateur 1}}
+                        Utilisateur
+                    {{/ifEquals}}
+
+                    {{#ifEquals this.id_type_utilisateur 2}}
+                        Admin
+                    {{/ifEquals}}
+                 </span>
+            </li>
+        {{/each}}
+    </ol>
+{{/if}}

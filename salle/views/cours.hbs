@@ -1,0 +1,74 @@
+{{>header}}
+
+<div class="container px-4 py-5" id="hanging-icons">
+    <h2 class="pb-2 border-bottom">
+        {{#if courses}}
+          ({{courses.length}})
+        {{/if}}
+        Cours
+    </h2>
+
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        {{#if courses}}
+        {{#each courses}}
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{this.nom}}</h5>
+                        <p>{{this.description}}</p>
+                        <ol class="list-group list-group-flush ">
+                            <!-- CAPACITE -->
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="fw-bold">
+                                        {{this.capacite}}
+                                    </div>
+                                    Capacité
+                                </div>
+                            </li>
+                            <!-- NB COURS -->
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="fw-bold">
+                                        {{this.nb_cours}}
+                                    </div>
+                                    Nombre cours
+                                </div>
+                            </li>
+                            <!-- DATE -->
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div>
+                                <div class="fw-bold">
+                                    {{formatDate this.date_debut}}
+                                </div>
+                                Date et l'heure
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                    {{#if ../user}}
+                        {{#ifEquals ../user.id_type_utilisateur 2}}
+                        <div class="card-footer text-center">
+                            <a href="/supprimer/cours/{{this.id_cours}}" class="btn btn-danger">
+                                Supprimer
+                            </a>
+                        </div>
+                        {{/ifEquals}}
+                    {{/if}}
+
+                    {{#if ../user}}
+                        {{#ifEquals ../user.id_type_utilisateur 1}}
+                        <div class="card-footer text-center">
+                            <a href="/registre/cours/{{this.id_cours}}" class="btn btn-success">
+                                S'inscrire
+                            </a>
+                        </div>
+                        {{/ifEquals}}
+                    {{/if}}
+                </div>
+            </div>
+        {{/each}}
+        {{/if}}
+    </div>
+  </div>
+
